@@ -1,0 +1,11 @@
+KEY,e,e,b,b,e,b,c,d,a,e
+Alice,e,c,b,d,c,c,d,?,a
+Bob,e,a,b,b,?,?,?,d,a,e
+Cami,e,e,b,b,?,b,c,d,a,e
+Dylon,a,e,?,b,e,b,c,b,b,e
+Elyse,a,?,?,b,e,b,c,d,a,e
+Fred,e,e,b,b,?,b,c,d,a,e
+Gee,?,?,?,?,?,?,c,d,a,e
+Harry,a,e,b,b,?,b,c,d,a,e
+Isla,a,a,a,a,a,a,c,d,a,e
+Jason,a,a,b,b,c,c,d,d,e,e
