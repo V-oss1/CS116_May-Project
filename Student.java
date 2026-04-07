@@ -2,13 +2,13 @@ public class Student {
     private String name;
     private String aNumber;
     private String[] previousCourses;
-    private String[] registeredNextSemester; // max 5 courses 
+    private String[] registeredNextSemester;
 
     public Student(String name, String aNumber, String[] previous) {
         this.name = name;
         this.aNumber = aNumber;
         this.previousCourses = previous;
-        this.registeredNextSemester = new String[5]; // limit check needed
+        this.registeredNextSemester = new String[5]; // limit to 5 courses per semester
     }
     //getters
     public String getID(){
@@ -23,11 +23,11 @@ public class Student {
     }
     public boolean canRegister() {
         // Check if student has taken prerequisites
-        if (!hasTakenPrereqs(course.getPrerequisites())) {
+        if (!hasTakenPrereqs(Course.getPrerequisites())) {
             return false;
         }
         // Check if there are open seats in the course
-        if (!course.hasOpenSeats()) {
+        if (!Course.hasOpenSeats()) {
             return false;
         }
         return true;
