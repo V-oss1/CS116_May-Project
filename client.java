@@ -11,8 +11,8 @@ public class Client {
 
     public static void main(String[] args) { 
         Client client = new Client();
-         client.readFile1("");
-         client.readFile2("");
+         client.readFile1(filename);
+         client.readFile2(filename);
         //logic to create client object and call methods to read files, search courses, register students, and write back to files
     }
     public void readFile1(String filename) {
