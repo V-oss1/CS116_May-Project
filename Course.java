@@ -24,14 +24,32 @@ public class Course{
         return prerequisites;
     }
 
+    public int getRegisteredStudents() {
+        return registeredStudents;
+    }
+
+    public int getMaxSeats() {
+        return maxSeats;
+    }
+
+
     // check for open seats helper method
     public boolean hasOpenSeats() {
         return registeredStudents < maxSeats;
     }
-}
 
-// + getID(): String
-// + getName(): String
-// + getStatus(): String 
-// + hasOpenSeats(): boolean 
-// + toString(): String
+    // increae registered student count by 1
+    public void increaseRegisteredStudents() {
+        if (hasOpenSeats()) {
+            registeredStudents++;
+        }
+    } 
+
+// returns status like 35/40
+public String getStatus() {
+    return registeredStudents + "/" + maxSeats;
+}
+    public String toString() {
+        return id + " - " + name + " (" + getStatus() + ")";
+    }
+}
