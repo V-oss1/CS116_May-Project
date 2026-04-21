@@ -146,7 +146,7 @@ public class Client {
                     if (result == null) {
                         System.out.println("Course not found.");
                     } else { 
-                        System.out.println(result.getId() + " - " + result.getName());
+                        System.out.println(result);
                     }
                     break;
                     
