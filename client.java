@@ -64,18 +64,31 @@ public class Client {
             System.out.println("Course data file not found.");
         }
     }
+
+    // reads student data from file and creates Student object
     public void readFile2(String filename) {
         File studentFile = new File(filename); //set file path
         // Logic to read student data from file and initialize User object
         try {
                 Scanner scr = new Scanner(studentFile);
+            
                 String studentName = scr.nextLine();
                 String studentID = scr.nextLine();
                 String courses = scr.nextLine();
                 String[] previousCourses = courses.split(",");
                 //import parsed data into Student object
                 currentStudent = new Student(studentName, studentID, previousCourses);
+            // check if there is a 4th line for registered next semester
+            if (scr.hasNextLine()) { 
+                String registeredLine = scr.nextLine();
+
+                if (!registeredLine.trim().equals("")) { 
+                    String[] registeredCourses = registeredLine.split(".");
+                    currentStudent.setRegisteredNextSemester(registeredCourses);
+                }
+            }
                 scr.close();
+            
             } catch (FileNotFoundException e) { 
                 System.out.println("Student data file not found. " + filename);
             }
@@ -116,24 +129,33 @@ public class Client {
             currentStudent.register(foundCourse);
         }
     }
-
+    // writes updated course data back into course file
     public void writeFile1(String filename) {
         try { 
+            // PrintWriter is usef to overwrite the file w/ new content 
             PrintWriter pw = new PrintWriter(filename);
-
+            // first line is the header row
             pw.println("ID\tName\tStatus\tPrerequisite");
 
+            // loop thru every course stored in courseCatalog array
             for (int i = 0; i < courseCount; i++) { 
+                // easier ref to current course object 
                 Course c = courseCatalog[i];
-
+                // write course ID then tab
                 pw.print(c.getId() + "\t");
+                // write course name then tab
                 pw.print(c.getName() + "\t");
+                // write updated status like 35/40 or 120/120 then tab
                 pw.print(c.getStatus() + "\t");
 
+                // get pre req array for current course
                 String[] prereqs = c.getPrerequisites();
+                // only write pre req if course has any
                 if (prereqs != null && prereqs.length > 0) {
                     for (int j = 0; j < prereqs.length; j++) {
+                        // write pre req course ID
                         pw.print(prereqs[j].trim());
+                        // if not the last pre req add a comma after it 
                         if (j < prereqs.length - 1) {
                             pw.print(",");
                         }
@@ -142,6 +164,7 @@ public class Client {
 
                 pw.println();
             }
+            // close to save changes 
             pw.close();
             System.out.println("Course file updated.");
         } catch (IOException e) { 
@@ -149,14 +172,18 @@ public class Client {
         } 
     } 
 
+    // writes updated student data back into student file 
     public void writeFile2(String filename) {
         try { 
+            // PrintWriter overwrites old file with updated data
             PrintWriter pw = new PrintWriter(filename);
-
+            // line 1 -> student full name
             pw.println(currentStudent.getName());
+            // line 2 -> student A num
             pw.println(currentStudent.getID());
-
+            // line 3 -> completed courses
             String [] completed = currentStudent.getPreviousCourses();
+            // loop thru completed courses array
             for (int i = 0; i < completed.length; i++) { 
                 pw.print(completed[i].trim());
                 if (i < completed.length - 1) { 
@@ -164,22 +191,28 @@ public class Client {
                 } 
             }
             pw.println();
-
+            // line 4 -> courses registered for next semester 
             String[] registered = currentStudent.getRegisteredNextSemester();
+            // prevents comma at beginning by tracking if a course has already been printed 
             boolean hasRegisteredCourse = false;
 
+            // loop thru registered array 
             for (int i = 0; i < registered.length; i++) { 
                 if  (registered[i] != null) {
                     if (hasRegisteredCourse) {
                         pw.print(",");
                     } 
                     pw.print(registered[i]);
+                    // at least one course has been printed by now 
                     hasRegisteredCourse = true;
                 }
             }
             pw.println();
 
+            // close to save 
             pw.close();
+
+            // writing failed :( 
             System.out.println("Student file updated.");
         } catch (IOException e) {
             System.out.println("Error writing student file.");
