@@ -1,6 +1,8 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
+import java.io.PrintWriter;
+import java.io.IOException;
 
 public class Client {
     private Student currentStudent;
@@ -114,6 +116,75 @@ public class Client {
             currentStudent.register(foundCourse);
         }
     }
+
+    public void writeFile1(String filename) {
+        try { 
+            PrintWriter pw = new PrintWriter(filename);
+
+            pw.println("ID\tName\tStatus\tPrerequisite");
+
+            for (int i = 0; i < courseCount; i++) { 
+                Course c = courseCatalog[i];
+
+                pw.print(c.getId() + "\t");
+                pw.print(c.getName() + "\t");
+                pw.print(c.getStatus() + "\t");
+
+                String[] prereqs = c.getPrerequisites();
+                if (prereqs != null && prereqs.length > 0) {
+                    for (int j = 0; j < prereqs.length; j++) {
+                        pw.print(prereqs[j].trim());
+                        if (j < prereqs.length - 1) {
+                            pw.print(",");
+                        }
+                    }
+                }
+
+                pw.println();
+            }
+            pw.close();
+            System.out.println("Course file updated.");
+        } catch (IOException e) { 
+            System.out.println("Error writing course file."); 
+        } 
+    } 
+
+    public void writeFile2(String filename) {
+        try { 
+            PrintWriter pw = new PrintWriter(filename);
+
+            pw.println(currentStudent.getName());
+            pw.println(currentStudent.getID());
+
+            String [] completed = currentStudent.getPreviousCourses();
+            for (int i = 0; i < completed.length; i++) { 
+                pw.print(completed[i].trim());
+                if (i < completed.length - 1) { 
+                    pw.print(",");
+                } 
+            }
+            pw.println();
+
+            String[] registered = currentStudent.getRegisteredNextSemester();
+            boolean hasRegisteredCourse = false;
+
+            for (int i = 0; i < registered.length; i++) { 
+                if  (registered[i] != null) {
+                    if (hasRegisteredCourse) {
+                        pw.print(",");
+                    } 
+                    pw.print(registered[i]);
+                    hasRegisteredCourse = true;
+                }
+            }
+            pw.println();
+
+            pw.close();
+            System.out.println("Student file updated.");
+        } catch (IOException e) {
+            System.out.println("Error writing student file.");
+        } 
+    } 
     
     public void menu() {
         Scanner input = new Scanner(System.in);
@@ -157,6 +228,8 @@ public class Client {
                     break;
                     
                 case 5:
+                    writeFile1("CS-26F.txt");
+                    writeFile2("A20123456.txt");
                     System.out.println("Exiting...");
                     input.close();
                     return;
