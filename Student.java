@@ -35,7 +35,12 @@ public class Student {
     public String getName() {
         return name;
     }
+    // returns completed courses from previous semesters
+    public String[] getPreviousCourses() {
+        return previousCourses;
+    }
 
+    
     // checks if student completed all prerequisites 
     public boolean hasTakenPrereqs( String[] requiredPrereqs) {
 
