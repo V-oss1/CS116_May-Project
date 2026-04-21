@@ -153,6 +153,7 @@ public class Student {
                 if (registeredNextSemester[i] == null) {
                     // place course ID into empty spot 
                     registeredNextSemester[i] = course.getId();
+                    course.increaseRegisteredStudents();
                     System.out.println("Registered for " + course.getId());
 
                     return;
